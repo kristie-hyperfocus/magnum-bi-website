@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magnum BI - Building Inspections | Sunshine Coast, QLD</title>
+    <meta name="description" content="Fast, reliable building inspections on the Sunshine Coast. New build and pre-purchase inspections by Magnum BI.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-pink: #ff2d95;
+            --neon-cyan: #00f5ff;
+            --neon-purple: #b026ff;
+            --gold: #d4af37;
+            --dark-bg: #0a0a1a;
+            --text-light: #f0f0f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--neon-pink);
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            color: var(--neon-cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-cyan);
+        }
+
+        /* Hero Section - Option B: Logo Focused with Skyline */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 100px 2rem 2rem;
+        }
+
+        /* Background with skyline image at bottom */
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                #0a0a1a 0%,
+                #1a0a2e 30%,
+                #2d1b4e 50%,
+                #5c2a6e 70%,
+                #8b3a8b 85%,
+                #c44d8c 100%
+            );
+        }
+
+        .skyline-bg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            z-index: 1;
+        }
+
+        .skyline-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: bottom;
+        }
+
+        /* Large logo as hero centerpiece */
+        .hero-logo {
+            position: relative;
+            z-index: 10;
+            margin-bottom: 2rem;
+        }
+
+        .hero-logo img {
+            width: 350px;
+            height: auto;
+            filter: drop-shadow(0 0 30px rgba(255, 45, 149, 0.5));
+        }
+
+        .hero-text {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .hero-text .location {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--neon-cyan);
+            letter-spacing: 4px;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px rgba(0, 245, 255, 0.5);
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--dark-bg);
+            background: var(--neon-cyan);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 25px rgba(0, 245, 255, 0.6);
+        }
+
+        .cta-btn:hover {
+            background: var(--text-light);
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(0, 245, 255, 0.8);
+        }
+
+        /* Palm trees on sides */
+        .palm-left, .palm-right {
+            position: absolute;
+            bottom: 0;
+            height: 70%;
+            max-height: 550px;
+            z-index: 2;
+        }
+
+        .palm-left {
+            left: 0;
+        }
+
+        .palm-right {
+            right: 0;
+        }
+
+        .palm-left img, .palm-right img {
+            height: 100%;
+            width: auto;
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--neon-pink);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--dark-bg);
+            position: relative;
+        }
+
+        .about::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .about-badge {
+            display: flex;
+            justify-content: center;
+        }
+
+        .badge-circle {
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 5px solid var(--gold);
+            box-shadow:
+                0 0 0 3px var(--dark-bg),
+                0 0 30px rgba(212, 175, 55, 0.4),
+                0 0 60px rgba(255, 45, 149, 0.3);
+        }
+
+        .badge-circle .number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+        }
+
+        .badge-circle .label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        /* Services Section */
+        .services {
+            background: #050510;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, rgba(176, 38, 255, 0.1), rgba(255, 45, 149, 0.05));
+            border-left: 4px solid var(--neon-pink);
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            border-left-color: var(--neon-cyan);
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.1), rgba(176, 38, 255, 0.05));
+            transform: translateX(5px);
+        }
+
+        .service-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+        }
+
+        .service-card p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(to bottom, #050510, #1a0a2e);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--neon-cyan);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .contact-form {
+            background: rgba(10, 10, 26, 0.8);
+            padding: 2rem;
+            border: 2px solid var(--neon-purple);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--neon-cyan);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.875rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--neon-purple);
+            color: var(--text-light);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--dark-bg);
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-purple));
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-bg);
+            padding: 2rem;
+            text-align: center;
+            border-top: 3px solid var(--neon-pink);
+        }
+
+        footer p {
+            opacity: 0.7;
+        }
+
+        /* Mobile */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--neon-cyan);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 968px) {
+            .about-content,
+            .contact-container,
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: var(--dark-bg);
+                padding: 1rem;
+                gap: 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                text-align: center;
+                padding: 0.75rem 0;
+            }
+
+            .hero-logo img {
+                width: 250px;
+            }
+
+            .hero-text .location {
+                font-size: 1rem;
+            }
+
+            .palm-left, .palm-right {
+                height: 45%;
+            }
+
+            .skyline-bg {
+                height: 30%;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="nav-logo">MAGNUM <span>BI</span></a>
+            <button class="mobile-menu-btn" onclick="document.getElementById('navLinks').classList.toggle('active')">&#9776;</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+
+        <div class="skyline-bg">
+            <img src="City_Skyline.png" alt="">
+        </div>
+
+        <div class="palm-left">
+            <img src="Plam_Tree_Left.png" alt="">
+        </div>
+        <div class="palm-right">
+            <img src="Plam_tree_Right.png" alt="">
+        </div>
+
+        <div class="hero-logo">
+            <img src="Magnum-BI-Logo.jpeg" alt="Magnum BI - Building Inspections">
+        </div>
+
+        <div class="hero-text">
+            <p class="location">Sunshine Coast, Queensland</p>
+            <a href="#contact" class="cta-btn">Get a Quote</a>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <h2 class="section-title">About Us</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Welcome to <strong>Magnum BI</strong> - the Sunshine Coast's trusted building inspection specialists. We combine cutting-edge inspection technology with old-school dedication to quality.</p>
+                <p>Whether you're purchasing your dream home or overseeing a new build, our comprehensive inspections give you complete peace of mind.</p>
+                <p>Based right here on the beautiful Sunshine Coast, we understand local building practices, common issues, and what Queensland conditions mean for your property.</p>
+            </div>
+            <div class="about-badge">
+                <div class="badge-circle">
+                    <span class="number">100%</span>
+                    <span class="label">Thorough<br>Inspections</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <h2 class="section-title">Our Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>New Build Inspections</h3>
+                <p>Stage-by-stage inspections throughout your build. We ensure construction meets standards at every phase - from slab to handover.</p>
+            </div>
+            <div class="service-card">
+                <h3>Pre-Purchase Inspections</h3>
+                <p>Buying a property? Our detailed pre-purchase inspections reveal the true condition of any home before you sign.</p>
+            </div>
+            <div class="service-card">
+                <h3>Detailed Reports</h3>
+                <p>Every inspection includes a comprehensive digital report with photos, findings, and recommendations - usually within 24 hours.</p>
+            </div>
+            <div class="service-card">
+                <h3>Fast Turnaround</h3>
+                <p>We know time matters in property deals. Flexible scheduling and rapid report delivery when you need it.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2 class="section-title">Contact Us</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Get in Touch</h3>
+                <p>Ready to book an inspection or have questions? We service the entire Sunshine Coast region - from Caloundra to Noosa.</p>
+                <p style="margin-top: 2rem;"><strong>Location:</strong> Sunshine Coast, QLD</p>
+                <p><strong>Email:</strong> info@magnumbi.com.au</p>
+            </div>
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('Thanks! We\'ll be in touch soon.');">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Service Required</label>
+                    <select required>
+                        <option value="">Select...</option>
+                        <option>New Build Inspection</option>
+                        <option>Pre-Purchase Inspection</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Magnum BI - Building Inspections. Sunshine Coast, QLD.</p>
+    </footer>
+</body>
+</html>
