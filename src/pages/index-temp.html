@@ -1,16 +1,9 @@
----
-// Load CMS content
-const heroData = (await import('../../content/hero.json')).default;
-const contactData = (await import('../../content/contact.json')).default;
-const seoData = (await import('../../content/seo.json')).default;
----
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{seoData.site_title}</title>
-    <meta name="description" content={seoData.site_description}>
+    <title>Magnum BI - Building Inspection Sunshine Coast</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
@@ -1472,10 +1465,10 @@ const seoData = (await import('../../content/seo.json')).default;
   <!-- ===== HERO ===== -->
   <section class="hero">
     <div class="hero-content">
-      <h1 class="hero-title">{heroData.title}</h1>
-      <p class="hero-subtitle">{heroData.subtitle}</p>
-      <p class="hero-tagline">{heroData.tagline}</p>
-      <a href={heroData.cta_link} class="hero-cta">{heroData.cta_text}</a>
+      <h1 class="hero-title">MAGNUM BI</h1>
+      <p class="hero-subtitle">Building Inspections &mdash; Sunshine Coast</p>
+      <p class="hero-tagline">Where every inspection is a Magnum opus</p>
+      <a href="#contact" class="hero-cta">Get a Quote</a>
     </div>
   </section>
 
@@ -1645,19 +1638,19 @@ const seoData = (await import('../../content/seo.json')).default;
         <h3>Get in Touch</h3>
         <div class="contact-detail">
           <div class="contact-detail-label">Phone</div>
-          <div class="contact-detail-value"><a href={`tel:${contactData.phone.replace(/\s/g, '')}`}>{contactData.phone}</a></div>
+          <div class="contact-detail-value"><a href="tel:0438825008">0438 825 008</a></div>
         </div>
         <div class="contact-detail">
           <div class="contact-detail-label">Email</div>
-          <div class="contact-detail-value"><a href={`mailto:${contactData.email}`}>{contactData.email}</a></div>
+          <div class="contact-detail-value"><a href="mailto:info@magnumbi.com.au">info@magnumbi.com.au</a></div>
         </div>
         <div class="contact-detail">
           <div class="contact-detail-label">Location</div>
-          <div class="contact-detail-value">{contactData.address}</div>
+          <div class="contact-detail-value">Sunshine Coast, QLD</div>
         </div>
         <div class="contact-detail">
           <div class="contact-detail-label">Hours</div>
-          <div class="contact-detail-value">{contactData.hours}</div>
+          <div class="contact-detail-value">Mon &ndash; Sat, 7am &ndash; 5pm</div>
         </div>
       </div>
       <form id="contactForm" class="contact-form">
