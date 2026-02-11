@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magnum BI - Building Inspections | Sunshine Coast, QLD</title>
+    <meta name="description" content="Fast, reliable building inspections on the Sunshine Coast. New build and pre-purchase inspections by Magnum BI.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header-wrapper {
+            background: url('sunset-beach-background.png') no-repeat center center;
+            background-size: cover;
+            position: relative;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+        }
+
+        header {
+            position: relative;
+            z-index: 1;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .logo {
+            max-width: 280px;
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 2px 10px rgba(0,0,0,0.3));
+            transition: max-width 0.3s ease;
+        }
+
+        .header-wrapper.scrolled {
+            min-height: auto;
+        }
+
+        .header-wrapper.scrolled .logo {
+            max-width: 160px;
+        }
+
+        .header-contact {
+            color: #fff;
+            text-align: right;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header-contact a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .header-contact a:hover {
+            color: #ff6b9d;
+        }
+
+        .header-contact span {
+            display: block;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.9);
+            margin-top: 0.25rem;
+        }
+
+
+        nav {
+            background: #1a1a2e;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        nav a:hover {
+            color: #00f5ff;
+            border-bottom-color: #00f5ff;
+        }
+
+        /* Main content */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 4rem 0;
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #1a1a2e;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h3 {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* About Section */
+        .about p {
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        /* Meet Paul section */
+        .meet-paul {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin: 2.5rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, #1a1a2e, #2d2d4a);
+            color: #fff;
+            border-radius: 10px;
+        }
+
+        .paul-photo {
+            flex-shrink: 0;
+        }
+
+        .paul-photo img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #00f5ff;
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+        }
+
+        .paul-photo .placeholder {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: #3a3a5a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            border: 4px solid #00f5ff;
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+        }
+
+        .paul-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: #00f5ff;
+        }
+
+        .paul-info p {
+            color: #ccc;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            margin: 1.5rem 0 2rem;
+            padding: 0.875rem 2rem;
+            background: #1a1a2e;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #00f5ff;
+            color: #1a1a2e;
+            box-shadow: 0 0 15px rgba(0, 245, 255, 0.4);
+        }
+
+        .services-list {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .service-item {
+            background: #f8f8f8;
+            padding: 1.5rem;
+            border-left: 4px solid #ff6b9d;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .service-item:hover {
+            background: #fff;
+            border-left-color: #ff6b9d;
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.4), 0 0 40px rgba(255, 107, 157, 0.2);
+        }
+
+        .service-item h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #1a1a2e;
+            transition: color 0.3s ease;
+        }
+
+        .service-item:hover h3 {
+            color: #ff6b9d;
+        }
+
+        .service-item p {
+            font-size: 0.95rem;
+            color: #666;
+            margin: 0;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: #f8f8f8;
+            margin: 0 -2rem;
+            padding: 4rem 2rem;
+        }
+
+        .contact-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        .contact-details {
+            margin-top: 2rem;
+        }
+
+        .contact-details p {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-details strong {
+            color: #1a1a2e;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .contact-form h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: #fff;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #ff6b9d;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            background: #1a1a2e;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #2d2d4a;
+        }
+
+        /* Trust Badges */
+        .trust-badges {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.3), rgba(255, 138, 128, 0.3));
+            padding: 1.5rem 2rem;
+        }
+
+        .trust-badges-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #1a1a2e;
+        }
+
+        .trust-badge .icon {
+            font-size: 1.5rem;
+        }
+
+        .trust-badge .text {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            background: #fff;
+            padding: 4rem 2rem;
+        }
+
+        .how-it-works-inner {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .how-it-works h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff6b9d, #ff8a80);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 1rem;
+        }
+
+        .step h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #1a1a2e;
+        }
+
+        .step p {
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        /* Why Choose Us */
+        .why-choose {
+            background: #f8f8f8;
+            padding: 4rem 2rem;
+        }
+
+        .why-choose-inner {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .why-choose h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .why-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .why-item:hover {
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+        }
+
+        .why-item .icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .why-item h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            color: #1a1a2e;
+        }
+
+        .why-item p {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0;
+        }
+
+        /* Google Reviews / Testimonials */
+        .reviews {
+            background: #fff;
+            padding: 4rem 2rem;
+        }
+
+        .reviews-inner {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .reviews h2 {
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .reviews-subtitle {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #666;
+        }
+
+        .google-rating {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .google-rating img {
+            height: 24px;
+        }
+
+        .google-rating .stars {
+            color: #fbbc04;
+            font-size: 1.2rem;
+        }
+
+        .google-rating .rating-text {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .review-card {
+            background: #f8f8f8;
+            padding: 1.5rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .review-card:hover {
+            box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            background: #1a1a2e;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .reviewer-info {
+            flex: 1;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #1a1a2e;
+        }
+
+        .review-date {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .review-stars {
+            color: #fbbc04;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .review-text {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .google-link {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .google-link a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .google-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a2e;
+            color: #fff;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #ff6b9d;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-links {
+            margin-top: 0.75rem;
+            opacity: 0.8;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 2rem;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            color: #333;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+        }
+
+        .modal-content h3 {
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        /* ===== Showcase Gallery ===== */
+        .showcase {
+            background: #1a1a2e;
+            padding: 4rem 2rem;
+        }
+
+        .showcase-intro {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .showcase-intro h2 {
+            color: #fff;
+            margin-bottom: 0.75rem;
+        }
+
+        .showcase-intro p {
+            color: rgba(255,255,255,0.6);
+            font-size: 1rem;
+        }
+
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: auto auto;
+            gap: 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .showcase-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            aspect-ratio: 4 / 3;
+            cursor: default;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .showcase-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger the animation */
+        .showcase-card:nth-child(2) { transition-delay: 0.1s; }
+        .showcase-card:nth-child(3) { transition-delay: 0.2s; }
+        .showcase-card:nth-child(4) { transition-delay: 0.15s; }
+        .showcase-card:nth-child(5) { transition-delay: 0.25s; }
+        .showcase-card:nth-child(6) { transition-delay: 0.35s; }
+
+        .showcase-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .showcase-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .showcase-card .card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(26,26,46,0.9) 0%, rgba(26,26,46,0.3) 50%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.25rem;
+            transition: background 0.4s ease;
+        }
+
+        .showcase-card:hover .card-overlay {
+            background: linear-gradient(to top, rgba(26,26,46,0.95) 0%, rgba(26,26,46,0.5) 60%, rgba(26,26,46,0.2) 100%);
+        }
+
+        .showcase-card .card-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ff6b9d;
+            margin-bottom: 0.35rem;
+        }
+
+        .showcase-card .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.4rem;
+            line-height: 1.3;
+        }
+
+        .showcase-card .card-desc {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.5;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.4s ease;
+            opacity: 0;
+        }
+
+        .showcase-card:hover .card-desc {
+            max-height: 80px;
+            opacity: 1;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .header-wrapper {
+                min-height: 200px;
+            }
+
+            header {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+                gap: 1rem;
+                padding: 1.5rem 1rem;
+            }
+
+            .logo {
+                max-width: 200px;
+            }
+
+            .header-wrapper.scrolled .logo {
+                max-width: 140px;
+            }
+
+            .header-contact {
+                text-align: center;
+            }
+
+            .header-contact a {
+                font-size: 1.2rem;
+            }
+
+            .meet-paul {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .paul-photo .placeholder,
+            .paul-photo img {
+                width: 120px;
+                height: 120px;
+            }
+
+            nav ul {
+                gap: 1.5rem;
+            }
+
+            nav a {
+                font-size: 0.85rem;
+            }
+
+            .services-list {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .trust-badges-inner {
+                gap: 1.5rem;
+            }
+
+            .trust-badge .text {
+                font-size: 0.8rem;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Showcase gallery mobile */
+            .showcase-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .showcase-card .card-desc {
+                max-height: 80px;
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-wrapper" id="headerWrapper">
+        <header>
+            <img src="Magnum-Bi-No-GoldSVG.svg" alt="Magnum BI - Building Inspections" class="logo">
+            <div class="header-contact">
+                <a href="tel:0438825008">0438 825 008</a>
+                <span>Call for a free quote</span>
+            </div>
+        </header>
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="about" id="about">
+            <h2>About Us</h2>
+            <p>Welcome to <strong>Magnum BI</strong> - the Sunshine Coast's trusted building inspection specialists. We provide fast, reliable building inspections for homebuyers and builders across the region.</p>
+            <p>Whether you're purchasing your dream home or overseeing a new build, our comprehensive inspections give you complete peace of mind. Based right here on the beautiful Sunshine Coast, we understand local building practices and what Queensland conditions mean for your property.</p>
+
+            <div class="meet-paul">
+                <div class="paul-photo">
+                    <!-- Replace with: <img src="paul-headshot.jpg" alt="Paul"> -->
+                    <div class="placeholder">👤</div>
+                </div>
+                <div class="paul-info">
+                    <h3>Meet Paul</h3>
+                    <p>Your local building inspector with over X years of experience in the construction industry. Paul knows Sunshine Coast properties inside and out.</p>
+                    <p><em>"I treat every inspection like I'm buying the property myself."</em></p>
+                </div>
+            </div>
+
+            <a href="#contact" class="cta-button">Book an Inspection</a>
+
+            <div class="services-list" id="services">
+                <div class="service-item">
+                    <h3>New Build Inspections</h3>
+                    <p>Stage-by-stage inspections throughout your build, from slab to handover.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Pre-Purchase Inspections</h3>
+                    <p>Detailed inspections revealing the true condition of any property before you buy.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Detailed Reports</h3>
+                    <p>Comprehensive digital reports with photos and recommendations within 24 hours.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Fast Turnaround</h3>
+                    <p>Flexible scheduling and rapid delivery when time matters.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Showcase Gallery -->
+    <div class="showcase">
+        <div class="showcase-intro">
+            <h2>Why Inspections Matter</h2>
+            <p>Every property tells a story. We make sure yours has a happy ending.</p>
+        </div>
+
+        <div class="showcase-grid">
+            <div class="showcase-card">
+                <img src="1.png" alt="Modern kitchen and living area">
+                <div class="card-overlay">
+                    <span class="card-label">Quality Assured</span>
+                    <div class="card-title">Every Detail, Checked</div>
+                    <div class="card-desc">From kitchen fit-outs to structural framing — nothing gets past us.</div>
+                </div>
+            </div>
+            <div class="showcase-card">
+                <img src="2.png" alt="Property interior hallway">
+                <div class="card-overlay">
+                    <span class="card-label">Peace of Mind</span>
+                    <div class="card-title">See What Others Miss</div>
+                    <div class="card-desc">Hidden moisture, dodgy wiring, structural shortcuts — our trained eye catches it.</div>
+                </div>
+            </div>
+            <div class="showcase-card">
+                <img src="3.png" alt="Bathroom and wet areas">
+                <div class="card-overlay">
+                    <span class="card-label">Comprehensive</span>
+                    <div class="card-title">Wet Areas & Beyond</div>
+                    <div class="card-desc">Waterproofing, drainage, tiling, and ventilation — all checked to code.</div>
+                </div>
+            </div>
+            <div class="showcase-card">
+                <img src="4.png" alt="Luxury new build">
+                <div class="card-overlay">
+                    <span class="card-label">New Builds</span>
+                    <div class="card-title">Built Right, From the Start</div>
+                    <div class="card-desc">Stage-by-stage inspections from slab to handover.</div>
+                </div>
+            </div>
+            <div class="showcase-card">
+                <img src="5.png" alt="Property exterior">
+                <div class="card-overlay">
+                    <span class="card-label">Pre-Purchase</span>
+                    <div class="card-title">Buy With Confidence</div>
+                    <div class="card-desc">Know exactly what you're getting before you sign.</div>
+                </div>
+            </div>
+            <div class="showcase-card">
+                <img src="6.png" alt="Interior finishes">
+                <div class="card-overlay">
+                    <span class="card-label">Attention to Detail</span>
+                    <div class="card-title">The Finishing Touches</div>
+                    <div class="card-desc">Fixtures, finishes, paint, and joinery — the details matter.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trust Badges -->
+    <div class="trust-badges">
+        <div class="trust-badges-inner">
+            <div class="trust-badge">
+                <span class="icon">✓</span>
+                <span class="text">Fully Licensed & Insured</span>
+            </div>
+            <div class="trust-badge">
+                <span class="icon">🏆</span>
+                <span class="text">15+ Years Experience</span>
+            </div>
+            <div class="trust-badge">
+                <span class="icon">📋</span>
+                <span class="text">QBCC Registered</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="how-it-works-inner">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Book Online or Call</h3>
+                    <p>Get in touch to schedule your inspection at a time that suits you.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>We Inspect</h3>
+                    <p>Our qualified inspector conducts a thorough assessment of the property.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Get Your Report</h3>
+                    <p>Receive a detailed digital report within 24 hours with photos and recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose">
+        <div class="why-choose-inner">
+            <h2>Why Choose Magnum BI?</h2>
+            <div class="why-grid">
+                <div class="why-item">
+                    <span class="icon">🔍</span>
+                    <div>
+                        <h3>Thorough Inspections</h3>
+                        <p>We check every detail others might miss, giving you complete peace of mind.</p>
+                    </div>
+                </div>
+                <div class="why-item">
+                    <span class="icon">📱</span>
+                    <div>
+                        <h3>Easy Digital Reports</h3>
+                        <p>Clear, photo-rich reports delivered straight to your inbox within 24 hours.</p>
+                    </div>
+                </div>
+                <div class="why-item">
+                    <span class="icon">🏠</span>
+                    <div>
+                        <h3>Local Expertise</h3>
+                        <p>We know Sunshine Coast properties and the unique challenges of QLD conditions.</p>
+                    </div>
+                </div>
+                <div class="why-item">
+                    <span class="icon">💬</span>
+                    <div>
+                        <h3>Plain English Advice</h3>
+                        <p>No confusing jargon - just honest, straightforward guidance you can understand.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Google Reviews -->
+    <section class="reviews" id="reviews">
+        <div class="reviews-inner">
+            <h2>What Our Customers Say</h2>
+            <p class="reviews-subtitle">Don't just take our word for it</p>
+
+            <div class="google-rating">
+                <span class="stars">★★★★★</span>
+                <span class="rating-text">5.0 on Google</span>
+            </div>
+
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">JM</div>
+                        <div class="reviewer-info">
+                            <div class="reviewer-name">James M.</div>
+                            <div class="review-date">2 weeks ago</div>
+                        </div>
+                    </div>
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Paul was incredibly thorough and professional. Found issues with the property we were about to buy that saved us thousands. Highly recommend!"</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">SK</div>
+                        <div class="reviewer-info">
+                            <div class="reviewer-name">Sarah K.</div>
+                            <div class="review-date">1 month ago</div>
+                        </div>
+                    </div>
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Used Magnum BI for our new build inspections. Paul kept us informed at every stage and his reports were detailed and easy to understand."</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-avatar">DT</div>
+                        <div class="reviewer-info">
+                            <div class="reviewer-name">David T.</div>
+                            <div class="review-date">3 weeks ago</div>
+                        </div>
+                    </div>
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Fast, professional service. Report was delivered same day and Paul even took time to walk us through the findings. Will definitely use again."</p>
+                </div>
+            </div>
+
+            <div class="google-link">
+                <a href="#" target="_blank">See all reviews on Google →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <h2>Get in Touch</h2>
+                <p>Ready to book an inspection or have questions about our services? We're here to help.</p>
+                <p>Servicing the entire Sunshine Coast region - from Caloundra to Noosa and everywhere in between.</p>
+
+                <div class="contact-details">
+                    <p><strong>Location:</strong> Sunshine Coast, QLD</p>
+                    <p><strong>Email:</strong> info@magnumbi.com.au</p>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <h2>Send a Message</h2>
+                <form onsubmit="event.preventDefault(); alert('Thanks for your message! We\'ll be in touch soon.'); this.reset();">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="service">Service Required</label>
+                        <select id="service" name="service" required>
+                            <option value="">Select a service...</option>
+                            <option value="new-build">New Build Inspection</option>
+                            <option value="pre-purchase">Pre-Purchase Inspection</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Tell us about your property and inspection needs..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Magnum BI - Building Inspections. Sunshine Coast, QLD.</p>
+        <p class="footer-links">
+            <a href="#" onclick="document.getElementById('privacyModal').style.display='flex'; return false;">Privacy Policy</a>
+        </p>
+    </footer>
+
+    <!-- Privacy Policy Modal (placeholder - full content needed for build) -->
+    <div id="privacyModal" class="modal" onclick="if(event.target===this) this.style.display='none'">
+        <div class="modal-content">
+            <span class="modal-close" onclick="document.getElementById('privacyModal').style.display='none'">&times;</span>
+            <h2>Privacy Policy</h2>
+            <p><strong>Last updated:</strong> [Date]</p>
+            <p>Magnum BI ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website or use our services.</p>
+            <h3>Information We Collect</h3>
+            <p>We may collect personal information that you provide directly to us, including your name, email address, phone number, and property details when you submit an enquiry or book an inspection.</p>
+            <h3>How We Use Your Information</h3>
+            <p>We use your information to provide our building inspection services, respond to enquiries, send quotes, and communicate about your inspection. We do not sell your personal information to third parties.</p>
+            <h3>Contact Us</h3>
+            <p>If you have questions about this Privacy Policy, please contact us at info@magnumbi.com.au</p>
+            <p><em>[Full privacy policy content to be added for build]</em></p>
+        </div>
+    </div>
+
+    <!-- TODO for build: Create thank-you.html page for ad conversion tracking -->
+
+    <script>
+        // Shrink logo on scroll
+        const headerWrapper = document.getElementById('headerWrapper');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                headerWrapper.classList.add('scrolled');
+            } else {
+                headerWrapper.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll-triggered reveal for showcase cards
+        const showcaseCards = document.querySelectorAll('.showcase-card');
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -30px 0px'
+        });
+
+        showcaseCards.forEach(card => revealObserver.observe(card));
+    </script>
+</body>
+</html>

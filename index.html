@@ -3,1066 +3,1977 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magnum BI - Building Inspections | Sunshine Coast, QLD</title>
-    <meta name="description" content="Fast, reliable building inspections on the Sunshine Coast. New build and pre-purchase inspections by Magnum BI.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+    <title>Magnum BI - Building Inspection Sunshine Coast</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <style>
+        /* ===== CSS CUSTOM PROPERTIES ===== */
+        :root {
+            --bg: #0a0a1a;
+            --neon-pink: #ff2d95;
+            --neon-cyan: #00f5ff;
+            --sunset-orange: #ff6b35;
+            --sunset-pink: #ff1493;
+            --text: #e0e0e0;
+            --text-muted: rgba(255,255,255,0.5);
+            --max-width: 1200px;
+            --section-padding: 100px 0;
+            --container-padding: 0 40px;
+        }
+
+        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Montserrat', sans-serif;
-            color: #333;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* Header */
-        .header-wrapper {
-            background: url('sunset-beach-background.png') no-repeat center center;
-            background-size: cover;
-            position: relative;
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
+        ::selection {
+            background-color: var(--neon-pink);
+            color: var(--bg);
         }
 
-        .header-wrapper::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
         }
 
-        header {
-            position: relative;
-            z-index: 1;
-            padding: 1.5rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            max-width: 1200px;
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: var(--max-width);
             margin: 0 auto;
+            padding: var(--container-padding);
+        }
+
+        /* ===== NOISE OVERLAY ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise"/></filter><rect width="100" height="100" fill="%23ffffff" opacity="0.03" filter="url(%23noise)"/></svg>');
+            background-size: 100px 100px;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            animation: noise 8s steps(10, end) infinite;
+        }
+
+        @keyframes noise {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        /* ===== CUSTOM CURSOR ===== */
+        #cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--neon-pink);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            transition: width 0.2s, height 0.2s, border-color 0.2s;
+            box-shadow: 0 0 10px var(--neon-pink), inset 0 0 10px rgba(255, 45, 149, 0.3);
+        }
+
+        #cursor.cursor-hover {
+            width: 40px;
+            height: 40px;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        /* ===== NAVIGATION ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            background: rgba(10, 10, 26, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 245, 255, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(10, 10, 26, 0.95);
+            box-shadow: 0 8px 32px rgba(255, 45, 149, 0.1);
         }
 
         .logo {
-            max-width: 280px;
-            width: 100%;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-full {
+            width: 180px;
             height: auto;
-            filter: drop-shadow(0 2px 10px rgba(0,0,0,0.3));
-            transition: max-width 0.3s ease;
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
-        .header-wrapper.scrolled {
-            min-height: auto;
+        .logo-text {
+            width: 140px;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%) scale(0.8);
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
-        .header-wrapper.scrolled .logo {
-            max-width: 160px;
+        nav.scrolled .logo-full {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
         }
 
-        .header-contact {
-            color: #fff;
-            text-align: right;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        nav.scrolled .logo-text {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
         }
 
-        .header-contact a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.4rem;
-            font-weight: 700;
-        }
-
-        .header-contact a:hover {
-            color: #ff6b9d;
-        }
-
-        .header-contact span {
-            display: block;
-            font-size: 0.9rem;
-            color: rgba(255,255,255,0.9);
-            margin-top: 0.25rem;
-        }
-
-
-        nav {
-            background: #1a1a2e;
-            padding: 1rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav ul {
-            list-style: none;
+        .nav-links {
             display: flex;
-            justify-content: center;
-            gap: 3rem;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            padding: 0.5rem 0;
-            border-bottom: 2px solid transparent;
-        }
-
-        nav a:hover {
-            color: #00f5ff;
-            border-bottom-color: #00f5ff;
-        }
-
-        /* Main content */
-        main {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        section {
-            padding: 4rem 0;
-        }
-
-        h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: #1a1a2e;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        h3 {
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        /* About Section */
-        .about p {
-            font-size: 1.05rem;
-            margin-bottom: 1rem;
-            color: #555;
-        }
-
-        /* Meet Paul section */
-        .meet-paul {
-            display: flex;
-            gap: 2rem;
+            gap: 40px;
             align-items: center;
-            margin: 2.5rem 0;
-            padding: 2rem;
-            background: linear-gradient(135deg, #1a1a2e, #2d2d4a);
-            color: #fff;
+            list-style: none;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            position: relative;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .nav-links a::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 8px;
+            color: var(--neon-pink);
+            clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+            transition: clip-path 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .nav-cta {
+            background: var(--neon-pink);
+            color: var(--bg);
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 0 20px rgba(255, 45, 149, 0.3);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .nav-cta:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px rgba(255, 45, 149, 0.6);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 80px;
+            background: url('sunset-beach-background.png') center center / cover no-repeat;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(10, 10, 26, 0.5) 0%,
+                rgba(10, 10, 26, 0.25) 40%,
+                rgba(10, 10, 26, 0.15) 60%,
+                rgba(10, 10, 26, 0.6) 100%
+            );
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 0 40px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-title {
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(50px, 10vw, 120px);
+            font-weight: 700;
+            line-height: 1;
+            color: white;
+            text-shadow: 0 0 40px rgba(0, 0, 0, 0.6), 0 0 80px rgba(255, 45, 149, 0.4);
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(14px, 2vw, 22px);
+            color: white;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 300;
+            margin-top: 20px;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-tagline {
+            font-size: clamp(12px, 1.5vw, 18px);
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+            margin-top: 15px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-cta {
+            display: inline-block;
+            margin-top: 35px;
+            padding: 16px 40px;
+            background: var(--neon-pink);
+            color: white;
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 4px;
+            box-shadow: 0 0 30px rgba(255, 45, 149, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 0 50px rgba(255, 45, 149, 0.7);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== SCROLLING MARQUEE ===== */
+        .marquee {
+            width: 100%;
+            background: var(--neon-pink);
+            color: var(--bg);
+            padding: 18px 0;
+            overflow: hidden;
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: 2px;
+            white-space: nowrap;
+            z-index: 500;
+        }
+
+        .marquee-content {
+            display: inline-flex;
+            gap: 60px;
+            animation: marquee 20s linear infinite;
+        }
+
+        .marquee-content:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ===== BIG TEXT SECTION ===== */
+        .big-text-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--bg) 0%, rgba(42, 26, 94, 0.2) 100%);
+            padding: 70px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .big-text-container {
+            font-size: clamp(26px, 4vw, 56px);
+            font-weight: 700;
+            line-height: 1.3;
+            text-align: center;
+            max-width: var(--max-width);
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .big-text-container span {
+            color: var(--neon-pink);
+            text-shadow: 0 0 20px rgba(255, 45, 149, 0.5);
+        }
+
+        .big-text-section.compact {
+            padding: 50px 40px;
+        }
+
+        .big-text-section.compact .big-text-container {
+            font-size: clamp(22px, 3.2vw, 44px);
+            max-width: 800px;
+        }
+
+        /* ===== SCROLL REVEAL ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== SECTION HEADINGS ===== */
+        .section-heading {
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 25px;
+        }
+
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
+            box-shadow: 0 0 15px var(--neon-pink);
+        }
+
+        /* ===== SERVICES ===== */
+        .services {
+            background: var(--bg);
+            padding: var(--section-padding);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--container-padding);
+        }
+
+        .service-card {
+            background: rgba(255, 45, 149, 0.05);
+            border: 1px solid rgba(0, 245, 255, 0.1);
+            border-left: 4px solid var(--neon-pink);
+            border-radius: 8px;
+            padding: 35px;
+            backdrop-filter: blur(10px);
+            box-shadow: inset 0 0 20px rgba(255, 45, 149, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-left-color: var(--neon-cyan);
+            box-shadow: 0 20px 40px rgba(255, 45, 149, 0.2), inset 0 0 20px rgba(0, 245, 255, 0.1);
+        }
+
+        .service-card:hover::before {
+            left: 100%;
+        }
+
+        .service-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .service-title {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            color: var(--neon-pink);
+        }
+
+        .service-description {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* ===== STATS ===== */
+        .stats {
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan));
+            padding: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--container-padding);
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(32px, 4vw, 56px);
+            font-weight: 700;
+            color: var(--bg);
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .stat-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--bg);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+        }
+
+        .stats-cta-wrap {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .stats-cta {
+            display: inline-block;
+            padding: 14px 36px;
+            background: var(--bg);
+            color: var(--neon-pink);
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .stats-cta:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            color: var(--neon-cyan);
+        }
+
+        /* ===== GALLERY (BENTO) ===== */
+        .gallery {
+            background: var(--bg);
+            padding: var(--section-padding);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 220px;
+            gap: 16px;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--container-padding);
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
             border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:nth-child(1) { grid-column: span 1; }
+        .gallery-item:nth-child(2) { grid-column: span 2; }
+        .gallery-item:nth-child(3) { grid-column: span 1; }
+        .gallery-item:nth-child(4) { grid-column: span 2; }
+        .gallery-item:nth-child(5) { grid-column: span 1; }
+        .gallery-item:nth-child(6) { grid-column: span 1; }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-item:hover {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 25px rgba(255, 45, 149, 0.4);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 10, 26, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay-text {
+            color: var(--neon-pink);
+            font-family: 'Syncopate', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===== ABOUT PAUL ===== */
+        .about-paul {
+            background: linear-gradient(135deg, var(--bg) 0%, rgba(90, 45, 143, 0.1) 100%);
+            padding: var(--section-padding);
+        }
+
+        .about-paul-container {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 60px;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--container-padding);
+            align-items: center;
         }
 
         .paul-photo {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(0, 245, 255, 0.4), transparent);
+            border: 4px solid var(--neon-cyan);
+            box-shadow: 0 0 40px rgba(0, 245, 255, 0.3), inset 0 0 40px rgba(0, 245, 255, 0.1);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
             flex-shrink: 0;
         }
 
         .paul-photo img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border: 4px solid #00f5ff;
-            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
         }
 
-        .paul-photo .placeholder {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: #3a3a5a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            border: 4px solid #00f5ff;
-            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+        .paul-content h2 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            color: var(--text);
         }
 
-        .paul-info h3 {
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
-            color: #00f5ff;
+        .paul-content p {
+            color: var(--text-muted);
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 20px;
         }
 
-        .paul-info p {
-            color: #ccc;
-            margin-bottom: 0.5rem;
+        .paul-quote {
+            color: var(--neon-pink);
+            font-style: italic;
+            font-size: 16px;
+            padding: 20px 25px;
+            border-left: 4px solid var(--neon-pink);
+            margin: 25px 0;
+            background: rgba(255, 45, 149, 0.05);
+            backdrop-filter: blur(10px);
+            line-height: 1.7;
         }
 
-        .cta-button {
-            display: inline-block;
-            margin: 1.5rem 0 2rem;
-            padding: 0.875rem 2rem;
-            background: #1a1a2e;
-            color: #fff;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            border-radius: 10px;
-            transition: all 0.3s ease;
+        /* ===== PROCESS ===== */
+        .process {
+            background: var(--bg);
+            padding: var(--section-padding);
+            position: relative;
         }
 
-        .cta-button:hover {
-            background: #00f5ff;
-            color: #1a1a2e;
-            box-shadow: 0 0 15px rgba(0, 245, 255, 0.4);
-        }
-
-        .services-list {
-            margin-top: 2rem;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
-
-        .service-item {
-            background: #f8f8f8;
-            padding: 1.5rem;
-            border-left: 4px solid #ff6b9d;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            cursor: default;
-        }
-
-        .service-item:hover {
-            background: #fff;
-            border-left-color: #ff6b9d;
-            transform: translateY(-3px);
-            box-shadow: 0 0 20px rgba(255, 107, 157, 0.4), 0 0 40px rgba(255, 107, 157, 0.2);
-        }
-
-        .service-item h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            color: #1a1a2e;
-            transition: color 0.3s ease;
-        }
-
-        .service-item:hover h3 {
-            color: #ff6b9d;
-        }
-
-        .service-item p {
-            font-size: 0.95rem;
-            color: #666;
-            margin: 0;
-        }
-
-        /* Contact Section */
-        .contact {
-            background: #f8f8f8;
-            margin: 0 -2rem;
-            padding: 4rem 2rem;
-        }
-
-        .contact-wrapper {
-            max-width: 900px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-        }
-
-        .contact-info h2 {
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-info p {
-            margin-bottom: 1rem;
-            color: #555;
-        }
-
-        .contact-details {
-            margin-top: 2rem;
-        }
-
-        .contact-details p {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .contact-details strong {
-            color: #1a1a2e;
-        }
-
-        /* Contact Form */
-        .contact-form {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-        }
-
-        .contact-form h2 {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: #333;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 0.75rem;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background: #fff;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #ff6b9d;
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 1rem;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #fff;
-            background: #1a1a2e;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .submit-btn:hover {
-            background: #2d2d4a;
-        }
-
-        /* Trust Badges */
-        .trust-badges {
-            background: linear-gradient(135deg, rgba(255, 107, 157, 0.3), rgba(255, 138, 128, 0.3));
-            padding: 1.5rem 2rem;
-        }
-
-        .trust-badges-inner {
-            max-width: 900px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .trust-badge {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: #1a1a2e;
-        }
-
-        .trust-badge .icon {
-            font-size: 1.5rem;
-        }
-
-        .trust-badge .text {
-            font-size: 0.95rem;
-            font-weight: 600;
-        }
-
-        /* How It Works */
-        .how-it-works {
-            background: #fff;
-            padding: 4rem 2rem;
-        }
-
-        .how-it-works-inner {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .how-it-works h2 {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .steps {
+        .process-steps {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
+            gap: 40px;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--container-padding);
+            position: relative;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 15%;
+            right: 15%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-pink) 10%, var(--neon-pink) 90%, transparent);
+            z-index: 0;
         }
 
         .step {
+            position: relative;
+            z-index: 1;
             text-align: center;
-            padding: 1.5rem;
         }
 
         .step-number {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #ff6b9d, #ff8a80);
-            color: #fff;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 30px;
             font-weight: 700;
-            margin: 0 auto 1rem;
+            color: var(--bg);
+            margin: 0 auto 25px;
+            box-shadow: 0 0 30px rgba(255, 45, 149, 0.4);
         }
 
-        .step h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            color: #1a1a2e;
+        .step-title {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            color: var(--text);
         }
 
-        .step p {
-            font-size: 0.95rem;
-            color: #666;
+        .step-description {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.8;
         }
 
-        /* Why Choose Us */
-        .why-choose {
-            background: #f8f8f8;
-            padding: 4rem 2rem;
-        }
-
-        .why-choose-inner {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .why-choose h2 {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .why-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-        }
-
-        .why-item {
-            display: flex;
-            gap: 1rem;
-            align-items: flex-start;
-            background: #fff;
-            padding: 1.5rem;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .why-item:hover {
-            box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
-        }
-
-        .why-item .icon {
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .why-item h3 {
-            font-size: 1rem;
-            margin-bottom: 0.25rem;
-            color: #1a1a2e;
-        }
-
-        .why-item p {
-            font-size: 0.9rem;
-            color: #666;
-            margin: 0;
-        }
-
-        /* Google Reviews / Testimonials */
+        /* ===== REVIEWS ===== */
         .reviews {
-            background: #fff;
-            padding: 4rem 2rem;
-        }
-
-        .reviews-inner {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .reviews h2 {
-            text-align: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .reviews-subtitle {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #666;
-        }
-
-        .google-rating {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .google-rating img {
-            height: 24px;
-        }
-
-        .google-rating .stars {
-            color: #fbbc04;
-            font-size: 1.2rem;
-        }
-
-        .google-rating .rating-text {
-            font-weight: 600;
-            color: #333;
+            background: linear-gradient(135deg, rgba(255, 45, 149, 0.05) 0%, rgba(0, 245, 255, 0.05) 100%);
+            padding: var(--section-padding);
+            position: relative;
         }
 
         .reviews-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--container-padding);
         }
 
         .review-card {
-            background: #f8f8f8;
-            padding: 1.5rem;
+            background: rgba(255, 45, 149, 0.05);
+            border: 1px solid rgba(0, 245, 255, 0.2);
             border-radius: 10px;
+            padding: 35px;
+            backdrop-filter: blur(10px);
             transition: all 0.3s ease;
         }
 
         .review-card:hover {
-            box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
-        }
-
-        .review-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .reviewer-avatar {
-            width: 40px;
-            height: 40px;
-            background: #1a1a2e;
-            color: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-        }
-
-        .reviewer-info {
-            flex: 1;
-        }
-
-        .reviewer-name {
-            font-weight: 600;
-            font-size: 0.95rem;
-            color: #1a1a2e;
-        }
-
-        .review-date {
-            font-size: 0.8rem;
-            color: #888;
+            transform: translateY(-8px);
+            border-color: var(--neon-pink);
+            box-shadow: 0 20px 40px rgba(255, 45, 149, 0.15);
         }
 
         .review-stars {
-            color: #fbbc04;
-            font-size: 0.9rem;
-            margin-bottom: 0.75rem;
+            font-size: 18px;
+            color: #ffd700;
+            margin-bottom: 15px;
+            letter-spacing: 3px;
         }
 
         .review-text {
-            font-size: 0.9rem;
-            color: #555;
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .review-name {
+            font-family: 'Syncopate', sans-serif;
+            color: var(--neon-pink);
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===== CONTACT ===== */
+        .contact {
+            background: var(--bg);
+            padding: var(--section-padding);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--container-padding);
+        }
+
+        .contact-info h3 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(20px, 3vw, 28px);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            color: var(--text);
+        }
+
+        .contact-detail {
+            margin-bottom: 25px;
+        }
+
+        .contact-detail-label {
+            color: var(--neon-pink);
+            font-family: 'Syncopate', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .contact-detail-value {
+            color: var(--text);
+            font-size: 16px;
             line-height: 1.6;
         }
 
-        .google-link {
-            text-align: center;
-            margin-top: 2rem;
+        .contact-detail-value a {
+            color: var(--text);
         }
 
-        .google-link a {
-            color: #1a73e8;
-            text-decoration: none;
-            font-weight: 500;
+        .contact-detail-value a:hover {
+            color: var(--neon-cyan);
         }
 
-        .google-link a:hover {
-            text-decoration: underline;
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
         }
 
-        /* Footer */
+        .contact-form input,
+        .contact-form textarea,
+        .contact-form select {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(0, 245, 255, 0.03);
+            border: 2px solid rgba(0, 245, 255, 0.2);
+            border-radius: 6px;
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-form select option {
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus,
+        .contact-form select:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3), inset 0 0 20px rgba(0, 245, 255, 0.05);
+            background: rgba(0, 245, 255, 0.05);
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .contact-form button {
+            background: var(--neon-pink);
+            color: var(--bg);
+            padding: 14px 36px;
+            border-radius: 6px;
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(255, 45, 149, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+
+        .contact-form button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255, 45, 149, 0.6);
+        }
+
+        /* ===== FOOTER ===== */
         footer {
-            background: #1a1a2e;
-            color: #fff;
-            text-align: center;
-            padding: 1.5rem;
-            font-size: 0.9rem;
+            background: linear-gradient(135deg, rgba(255, 45, 149, 0.08) 0%, rgba(0, 245, 255, 0.05) 100%);
+            border-top: 2px solid var(--neon-pink);
+            box-shadow: inset 0 2px 20px rgba(255, 45, 149, 0.1);
         }
 
-        footer a {
-            color: #ff6b9d;
-            text-decoration: none;
+        .footer-inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 60px 40px 30px;
         }
 
-        footer a:hover {
-            text-decoration: underline;
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
         }
 
-        .footer-links {
-            margin-top: 0.75rem;
-            opacity: 0.8;
+        .footer-logo {
+            max-width: 150px;
+            margin-bottom: 15px;
         }
 
-        /* Modal */
+        .footer-logo img {
+            width: 100%;
+        }
+
+        .footer-tagline {
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .footer-nav h4,
+        .footer-contact h4 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--neon-pink);
+            margin-bottom: 18px;
+        }
+
+        .footer-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-nav-links a {
+            color: var(--text-muted);
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-nav-links a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .footer-contact p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .footer-contact a {
+            color: var(--text-muted);
+        }
+
+        .footer-contact a:hover {
+            color: var(--neon-cyan);
+        }
+
+        .footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(0, 245, 255, 0.1);
+            padding-top: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-copyright {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .footer-privacy {
+            color: var(--text-muted);
+            font-size: 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-privacy:hover {
+            color: var(--neon-pink);
+        }
+
+        .easter-egg-hint {
+            color: rgba(255, 255, 255, 0.08);
+            font-size: 10px;
+            font-family: monospace;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+            cursor: default;
+        }
+
+        .easter-egg-hint:hover {
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        /* ===== PRIVACY MODAL ===== */
         .modal {
-            display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.7);
-            justify-content: center;
+            z-index: 15000;
+            background: rgba(10, 10, 26, 0.92);
+            display: flex;
             align-items: center;
-            z-index: 1000;
-            padding: 2rem;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal.hidden {
+            display: none;
         }
 
         .modal-content {
-            background: #fff;
-            padding: 2rem;
-            border-radius: 10px;
-            max-width: 600px;
+            background: var(--bg);
+            border: 2px solid var(--neon-pink);
+            border-radius: 12px;
+            max-width: 700px;
+            width: 90%;
             max-height: 80vh;
             overflow-y: auto;
+            padding: 40px;
             position: relative;
-            color: #333;
+            box-shadow: 0 0 60px rgba(255, 45, 149, 0.2);
         }
 
         .modal-content h2 {
-            margin-top: 0;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 24px;
+            color: var(--neon-pink);
+            margin-bottom: 25px;
+            text-transform: uppercase;
         }
 
-        .modal-content h3 {
-            font-size: 1.1rem;
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .modal-content p {
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        .modal-close {
+        .close-modal {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            color: var(--neon-pink);
             cursor: pointer;
-            color: #666;
+            transition: color 0.3s ease;
+            line-height: 1;
         }
 
-        .modal-close:hover {
-            color: #333;
+        .close-modal:hover {
+            color: var(--neon-cyan);
         }
 
-        /* Mobile */
+        .modal-body h3 {
+            color: var(--neon-cyan);
+            font-size: 16px;
+            margin: 22px 0 10px;
+            font-weight: 700;
+        }
+
+        .modal-body p,
+        .modal-body li {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+
+        .modal-body ul {
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* ===== SNAKE GAME ===== */
+        .snake-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 20000;
+            background: rgba(10, 10, 26, 0.97);
+            background-image:
+                linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .snake-overlay.hidden {
+            display: none;
+        }
+
+        .snake-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .snake-close-btn {
+            position: absolute;
+            top: -50px;
+            right: -10px;
+            background: none;
+            color: var(--neon-pink);
+            font-size: 36px;
+            cursor: pointer;
+            z-index: 20001;
+            transition: color 0.3s ease;
+        }
+
+        .snake-close-btn:hover {
+            color: var(--neon-cyan);
+        }
+
+        #snakeCanvas {
+            border: 3px solid var(--neon-cyan);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 40px rgba(0, 245, 255, 0.4);
+            width: 400px;
+            height: 400px;
+        }
+
+        .snake-hud {
+            text-align: center;
+            color: var(--neon-cyan);
+            font-family: 'Syncopate', sans-serif;
+        }
+
+        .snake-start h1 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 36px;
+            color: var(--neon-pink);
+            text-shadow: 0 0 20px rgba(255, 45, 149, 0.5);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .snake-start p {
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .snake-score {
+            font-size: 20px;
+            color: var(--neon-cyan);
+            font-weight: 700;
+        }
+
+        .snake-score.hidden,
+        .snake-game-over.hidden,
+        .snake-start.hidden {
+            display: none;
+        }
+
+        .snake-game-over h2 {
+            color: var(--neon-pink);
+            font-family: 'Syncopate', sans-serif;
+            font-size: 28px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .snake-game-over p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .snake-game-over button {
+            background: var(--neon-cyan);
+            color: var(--bg);
+            padding: 12px 30px;
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+            font-size: 12px;
+        }
+
+        .snake-game-over button:hover {
+            box-shadow: 0 0 40px rgba(0, 245, 255, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .header-wrapper {
-                min-height: 200px;
+            nav {
+                padding: 0 20px;
             }
 
-            header {
-                flex-direction: column;
-                text-align: center;
-                align-items: center;
-                gap: 1rem;
-                padding: 1.5rem 1rem;
+            .nav-links {
+                gap: 15px;
+                font-size: 10px;
             }
 
-            .logo {
-                max-width: 200px;
+            .nav-cta {
+                padding: 10px 18px;
+                font-size: 10px;
             }
 
-            .header-wrapper.scrolled .logo {
-                max-width: 140px;
+
+            .big-text-section {
+                padding: 50px 25px;
             }
 
-            .header-contact {
-                text-align: center;
+            .big-text-container {
+                font-size: clamp(22px, 4vw, 40px);
             }
 
-            .header-contact a {
-                font-size: 1.2rem;
+            .big-text-section.compact {
+                padding: 40px 25px;
             }
 
-            .meet-paul {
-                flex-direction: column;
-                text-align: center;
+            .big-text-section.compact .big-text-container {
+                font-size: clamp(18px, 3vw, 32px);
             }
 
-            .paul-photo .placeholder,
-            .paul-photo img {
-                width: 120px;
-                height: 120px;
+            .section-heading {
+                font-size: clamp(24px, 4vw, 36px);
+                margin-bottom: 40px;
+                padding-left: 20px;
+                padding-right: 20px;
             }
 
-            nav ul {
-                gap: 1.5rem;
-            }
-
-            nav a {
-                font-size: 0.85rem;
-            }
-
-            .services-list {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-wrapper {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            h2 {
-                font-size: 1.5rem;
-            }
-
-            .trust-badges-inner {
-                gap: 1.5rem;
-            }
-
-            .trust-badge .text {
-                font-size: 0.8rem;
-            }
-
-            .steps {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .why-grid {
-                grid-template-columns: 1fr;
-            }
-
+            .services-grid,
             .reviews-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 180px;
+            }
+
+            .gallery-item:nth-child(2),
+            .gallery-item:nth-child(4) {
+                grid-column: span 2;
+            }
+
+            .about-paul-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .paul-photo {
+                margin: 0 auto;
+                width: 220px;
+                height: 220px;
+            }
+
+            .process-steps {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .process-steps::before {
+                display: none;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            #snakeCanvas {
+                width: 300px;
+                height: 300px;
+            }
+
+            .snake-start h1 {
+                font-size: 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                padding: 0 15px;
+            }
+
+            .logo-full {
+                width: 100px;
+            }
+
+            .logo-text {
+                width: 90px;
+            }
+
+            .nav-links {
+                gap: 10px;
+                font-size: 9px;
+            }
+
+            .nav-cta {
+                padding: 8px 14px;
+                font-size: 9px;
+            }
+
+            .hero-title {
+                font-size: 40px;
+            }
+
+            .big-text-container {
+                font-size: 22px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                padding: 0 20px;
+            }
+
+            .services,
+            .gallery,
+            .about-paul,
+            .process,
+            .reviews,
+            .contact {
+                padding: 60px 0;
+            }
+
+            .services-grid,
+            .reviews-grid,
+            .gallery-grid,
+            .process-steps,
+            .about-paul-container,
+            .contact-container {
+                padding: 0 20px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                grid-auto-rows: 200px;
+            }
+
+            .gallery-item:nth-child(2),
+            .gallery-item:nth-child(4) {
+                grid-column: span 1;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                padding: 0 20px;
+            }
+
+            .stat-number {
+                font-size: 36px;
+            }
+
+            .footer-inner {
+                padding: 40px 20px 20px;
+            }
+
+            #snakeCanvas {
+                width: 260px;
+                height: 260px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="header-wrapper" id="headerWrapper">
-        <header>
-            <img src="Magnum-Bi-No-GoldSVG.svg" alt="Magnum BI - Building Inspections" class="logo">
-            <div class="header-contact">
-                <a href="tel:0438825008">0438 825 008</a>
-                <span>Call for a free quote</span>
-            </div>
-        </header>
+
+  <div id="cursor"></div>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav>
+    <a href="#" class="logo">
+      <img src="Magnum-BI-Full-Logo.svg" alt="Magnum BI" class="logo-full">
+      <img src="Magnum-BI-Logo-Colour-White.svg" alt="Magnum BI" class="logo-text">
+    </a>
+    <div class="nav-links">
+      <a href="#services" data-text="Services">Services</a>
+      <a href="#gallery" data-text="Gallery">Gallery</a>
+      <a href="#about" data-text="About">About</a>
+      <a href="#reviews" data-text="Reviews">Reviews</a>
+      <a href="#contact" data-text="Contact">Contact</a>
     </div>
+    <a href="tel:0438825008" class="nav-cta">Call Now</a>
+  </nav>
 
-    <nav>
-        <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#reviews">Reviews</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-
-    <main>
-        <section class="about" id="about">
-            <h2>About Us</h2>
-            <p>Welcome to <strong>Magnum BI</strong> - the Sunshine Coast's trusted building inspection specialists. We provide fast, reliable building inspections for homebuyers and builders across the region.</p>
-            <p>Whether you're purchasing your dream home or overseeing a new build, our comprehensive inspections give you complete peace of mind. Based right here on the beautiful Sunshine Coast, we understand local building practices and what Queensland conditions mean for your property.</p>
-
-            <div class="meet-paul">
-                <div class="paul-photo">
-                    <!-- Replace with: <img src="paul-headshot.jpg" alt="Paul"> -->
-                    <div class="placeholder">👤</div>
-                </div>
-                <div class="paul-info">
-                    <h3>Meet Paul</h3>
-                    <p>Your local building inspector with over X years of experience in the construction industry. Paul knows Sunshine Coast properties inside and out.</p>
-                    <p><em>"I treat every inspection like I'm buying the property myself."</em></p>
-                </div>
-            </div>
-
-            <a href="#contact" class="cta-button">Book an Inspection</a>
-
-            <div class="services-list" id="services">
-                <div class="service-item">
-                    <h3>New Build Inspections</h3>
-                    <p>Stage-by-stage inspections throughout your build, from slab to handover.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Pre-Purchase Inspections</h3>
-                    <p>Detailed inspections revealing the true condition of any property before you buy.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Detailed Reports</h3>
-                    <p>Comprehensive digital reports with photos and recommendations within 24 hours.</p>
-                </div>
-                <div class="service-item">
-                    <h3>Fast Turnaround</h3>
-                    <p>Flexible scheduling and rapid delivery when time matters.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Trust Badges -->
-    <div class="trust-badges">
-        <div class="trust-badges-inner">
-            <div class="trust-badge">
-                <span class="icon">✓</span>
-                <span class="text">Fully Licensed & Insured</span>
-            </div>
-            <div class="trust-badge">
-                <span class="icon">🏆</span>
-                <span class="text">15+ Years Experience</span>
-            </div>
-            <div class="trust-badge">
-                <span class="icon">📋</span>
-                <span class="text">QBCC Registered</span>
-            </div>
-        </div>
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">MAGNUM BI</h1>
+      <p class="hero-subtitle">Building Inspections &mdash; Sunshine Coast</p>
+      <p class="hero-tagline">Where every inspection is a Magnum opus</p>
+      <a href="#contact" class="hero-cta">Get a Quote</a>
     </div>
+  </section>
 
-    <!-- How It Works -->
-    <section class="how-it-works">
-        <div class="how-it-works-inner">
-            <h2>How It Works</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Book Online or Call</h3>
-                    <p>Get in touch to schedule your inspection at a time that suits you.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>We Inspect</h3>
-                    <p>Our qualified inspector conducts a thorough assessment of the property.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Get Your Report</h3>
-                    <p>Receive a detailed digital report within 24 hours with photos and recommendations.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Why Choose Us -->
-    <section class="why-choose">
-        <div class="why-choose-inner">
-            <h2>Why Choose Magnum BI?</h2>
-            <div class="why-grid">
-                <div class="why-item">
-                    <span class="icon">🔍</span>
-                    <div>
-                        <h3>Thorough Inspections</h3>
-                        <p>We check every detail others might miss, giving you complete peace of mind.</p>
-                    </div>
-                </div>
-                <div class="why-item">
-                    <span class="icon">📱</span>
-                    <div>
-                        <h3>Easy Digital Reports</h3>
-                        <p>Clear, photo-rich reports delivered straight to your inbox within 24 hours.</p>
-                    </div>
-                </div>
-                <div class="why-item">
-                    <span class="icon">🏠</span>
-                    <div>
-                        <h3>Local Expertise</h3>
-                        <p>We know Sunshine Coast properties and the unique challenges of QLD conditions.</p>
-                    </div>
-                </div>
-                <div class="why-item">
-                    <span class="icon">💬</span>
-                    <div>
-                        <h3>Plain English Advice</h3>
-                        <p>No confusing jargon - just honest, straightforward guidance you can understand.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Google Reviews -->
-    <section class="reviews" id="reviews">
-        <div class="reviews-inner">
-            <h2>What Our Customers Say</h2>
-            <p class="reviews-subtitle">Don't just take our word for it</p>
-
-            <div class="google-rating">
-                <span class="stars">★★★★★</span>
-                <span class="rating-text">5.0 on Google</span>
-            </div>
-
-            <div class="reviews-grid">
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">JM</div>
-                        <div class="reviewer-info">
-                            <div class="reviewer-name">James M.</div>
-                            <div class="review-date">2 weeks ago</div>
-                        </div>
-                    </div>
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-text">"Paul was incredibly thorough and professional. Found issues with the property we were about to buy that saved us thousands. Highly recommend!"</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">SK</div>
-                        <div class="reviewer-info">
-                            <div class="reviewer-name">Sarah K.</div>
-                            <div class="review-date">1 month ago</div>
-                        </div>
-                    </div>
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-text">"Used Magnum BI for our new build inspections. Paul kept us informed at every stage and his reports were detailed and easy to understand."</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="reviewer-avatar">DT</div>
-                        <div class="reviewer-info">
-                            <div class="reviewer-name">David T.</div>
-                            <div class="review-date">3 weeks ago</div>
-                        </div>
-                    </div>
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-text">"Fast, professional service. Report was delivered same day and Paul even took time to walk us through the findings. Will definitely use again."</p>
-                </div>
-            </div>
-
-            <div class="google-link">
-                <a href="#" target="_blank">See all reviews on Google →</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="contact" id="contact">
-        <div class="contact-wrapper">
-            <div class="contact-info">
-                <h2>Get in Touch</h2>
-                <p>Ready to book an inspection or have questions about our services? We're here to help.</p>
-                <p>Servicing the entire Sunshine Coast region - from Caloundra to Noosa and everywhere in between.</p>
-
-                <div class="contact-details">
-                    <p><strong>Location:</strong> Sunshine Coast, QLD</p>
-                    <p><strong>Email:</strong> info@magnumbi.com.au</p>
-                </div>
-            </div>
-
-            <div class="contact-form">
-                <h2>Send a Message</h2>
-                <form onsubmit="event.preventDefault(); alert('Thanks for your message! We\'ll be in touch soon.'); this.reset();">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone</label>
-                        <input type="tel" id="phone" name="phone">
-                    </div>
-                    <div class="form-group">
-                        <label for="service">Service Required</label>
-                        <select id="service" name="service" required>
-                            <option value="">Select a service...</option>
-                            <option value="new-build">New Build Inspection</option>
-                            <option value="pre-purchase">Pre-Purchase Inspection</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" placeholder="Tell us about your property and inspection needs..."></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Send Message</button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2025 Magnum BI - Building Inspections. Sunshine Coast, QLD.</p>
-        <p class="footer-links">
-            <a href="#" onclick="document.getElementById('privacyModal').style.display='flex'; return false;">Privacy Policy</a>
-        </p>
-    </footer>
-
-    <!-- Privacy Policy Modal (placeholder - full content needed for build) -->
-    <div id="privacyModal" class="modal" onclick="if(event.target===this) this.style.display='none'">
-        <div class="modal-content">
-            <span class="modal-close" onclick="document.getElementById('privacyModal').style.display='none'">&times;</span>
-            <h2>Privacy Policy</h2>
-            <p><strong>Last updated:</strong> [Date]</p>
-            <p>Magnum BI ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website or use our services.</p>
-            <h3>Information We Collect</h3>
-            <p>We may collect personal information that you provide directly to us, including your name, email address, phone number, and property details when you submit an enquiry or book an inspection.</p>
-            <h3>How We Use Your Information</h3>
-            <p>We use your information to provide our building inspection services, respond to enquiries, send quotes, and communicate about your inspection. We do not sell your personal information to third parties.</p>
-            <h3>Contact Us</h3>
-            <p>If you have questions about this Privacy Policy, please contact us at info@magnumbi.com.au</p>
-            <p><em>[Full privacy policy content to be added for build]</em></p>
-        </div>
+  <!-- ===== MARQUEE ===== -->
+  <div class="marquee">
+    <div class="marquee-content">
+      <span>MAGNUM BI &#10038; BUILDING INSPECTIONS &#10038; SUNSHINE COAST &#10038; 20+ YEARS EXPERIENCE &#10038; SAME DAY APPOINTMENTS &#10038; 48HR REPORTS &#10038;&nbsp;</span>
+      <span>MAGNUM BI &#10038; BUILDING INSPECTIONS &#10038; SUNSHINE COAST &#10038; 20+ YEARS EXPERIENCE &#10038; SAME DAY APPOINTMENTS &#10038; 48HR REPORTS &#10038;&nbsp;</span>
     </div>
+  </div>
 
-    <!-- TODO for build: Create thank-you.html page for ad conversion tracking -->
+  <!-- ===== BIG STATEMENT ===== -->
+  <section class="big-text-section">
+    <div class="big-text-container">
+      We don't just inspect buildings. We protect your <span>biggest investment</span>. With <span>20 years</span> in the game and an eye that misses <span>nothing</span>.
+    </div>
+  </section>
 
-    <script>
-        // Shrink logo on scroll
-        const headerWrapper = document.getElementById('headerWrapper');
+  <!-- ===== SERVICES ===== -->
+  <section id="services" class="services reveal">
+    <h2 class="section-heading container">What We Do</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">&#127959;</div>
+        <h3 class="service-title">New Build Inspections</h3>
+        <p class="service-description">Stage-by-stage inspections from slab to handover. We're there at every critical phase to make sure your build meets Queensland standards.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#128269;</div>
+        <h3 class="service-title">Pre-Purchase Inspections</h3>
+        <p class="service-description">Before you sign, know exactly what you're getting. Our detailed assessment reveals hidden defects that could cost you thousands.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#128196;</div>
+        <h3 class="service-title">Detailed Reports</h3>
+        <p class="service-description">Comprehensive digital reports with high-res photos and expert commentary. Clear, honest assessments delivered within 48 hours.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#9889;</div>
+        <h3 class="service-title">Rapid Turnaround</h3>
+        <p class="service-description">Same-day inspection appointments. Reports in your inbox within 48 hours. When time matters, we deliver.</p>
+      </div>
+    </div>
+  </section>
 
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                headerWrapper.classList.add('scrolled');
-            } else {
-                headerWrapper.classList.remove('scrolled');
-            }
-        });
-    </script>
+  <!-- ===== STATS ===== -->
+  <section class="stats">
+    <div class="stats-container">
+      <div class="stat-item">
+        <span class="stat-number">20+</span>
+        <span class="stat-label">Years Experience</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">Same Day</span>
+        <span class="stat-label">Appointments</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">48hr</span>
+        <span class="stat-label">Report Turnaround</span>
+      </div>
+      <div class="stats-cta-wrap">
+        <a href="#contact" class="stats-cta">Book Your Inspection</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GALLERY (BENTO) ===== -->
+  <section id="gallery" class="gallery reveal">
+    <h2 class="section-heading container">Our Work</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="1.png" alt="Building Inspection">
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Inspect</span></div>
+      </div>
+      <div class="gallery-item">
+        <img src="2.png" alt="Building Inspection">
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Assess</span></div>
+      </div>
+      <div class="gallery-item">
+        <img src="3.png" alt="Building Inspection">
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Detail</span></div>
+      </div>
+      <div class="gallery-item">
+        <img src="4.png" alt="Building Inspection">
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Report</span></div>
+      </div>
+      <div class="gallery-item">
+        <img src="5.png" alt="Building Inspection">
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Protect</span></div>
+      </div>
+      <div class="gallery-item">
+        <img src="6.png" alt="Building Inspection">
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Deliver</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT PAUL ===== -->
+  <section id="about" class="about-paul reveal">
+    <div class="about-paul-container">
+      <div class="paul-photo">&#128100;</div>
+      <div class="paul-content">
+        <h2>Meet Paul</h2>
+        <p>With 20 years of building inspection experience under his belt, Paul is a Sunshine Coast institution. A local through and through, he brings an obsessive attention to detail and a keen eye for structural issues that most inspectors miss.</p>
+        <p>Paul treats every inspection like he's buying the property himself &mdash; because he knows that one missed detail can cost his clients thousands.</p>
+        <div class="paul-quote">"I've seen it all &mdash; from million-dollar dream homes with hidden nightmares to humble first homes that were built like fortresses. Every property has a story, and my job is to read between the walls."</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROCESS ===== -->
+  <section class="process reveal">
+    <h2 class="section-heading container">How It Works</h2>
+    <div class="process-steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3 class="step-title">Book</h3>
+        <p class="step-description">Call or book online. We'll schedule your inspection, usually within 24 hours.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3 class="step-title">Inspect</h3>
+        <p class="step-description">Paul conducts a thorough assessment, checking every detail from foundation to roof.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3 class="step-title">Report</h3>
+        <p class="step-description">Receive your detailed digital report within 48 hours, complete with photos and recommendations.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== REVIEWS ===== -->
+  <section id="reviews" class="reviews reveal">
+    <h2 class="section-heading container">Word on the Street</h2>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">"Paul was incredibly thorough and professional. Found issues with the property we were about to buy that saved us thousands. Highly recommend!"</p>
+        <p class="review-name">&mdash; James M.</p>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">"Used Magnum BI for our new build inspections. Paul kept us informed at every stage and his reports were detailed and easy to understand."</p>
+        <p class="review-name">&mdash; Sarah K.</p>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="review-text">"Fast, professional service. Report was delivered same day and Paul even took time to walk us through the findings. Will definitely use again."</p>
+        <p class="review-name">&mdash; David T.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECOND STATEMENT ===== -->
+  <section class="big-text-section compact">
+    <div class="big-text-container">
+      Don't leave your <span>biggest purchase</span> to chance.<br>Get the <span>Magnum</span> advantage.
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" class="contact reveal">
+    <h2 class="section-heading container">Let's Talk</h2>
+    <div class="contact-container">
+      <div class="contact-info">
+        <h3>Get in Touch</h3>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Phone</div>
+          <div class="contact-detail-value"><a href="tel:0438825008">0438 825 008</a></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Email</div>
+          <div class="contact-detail-value"><a href="mailto:info@magnumbi.com.au">info@magnumbi.com.au</a></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Location</div>
+          <div class="contact-detail-value">Sunshine Coast, QLD</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Hours</div>
+          <div class="contact-detail-value">Mon &ndash; Sat, 7am &ndash; 5pm</div>
+        </div>
+      </div>
+      <form id="contactForm" class="contact-form">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <input type="tel" id="phone" placeholder="Your Phone" required>
+        <select id="service" required>
+          <option value="">Select Service</option>
+          <option value="new-build">New Build Inspection</option>
+          <option value="pre-purchase">Pre-Purchase Inspection</option>
+          <option value="other">Other</option>
+        </select>
+        <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+        <button type="submit">Send It</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="Magnum-BI-Logo-Mono-White.svg" alt="Magnum BI">
+          </div>
+          <p class="footer-tagline">Professional building inspections on the Sunshine Coast. 20+ years experience. Detailed reports with photos and expert commentary.</p>
+        </div>
+        <div class="footer-nav">
+          <h4>Quick Links</h4>
+          <div class="footer-nav-links">
+            <a href="#services">Services</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#about">About Paul</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#contact">Contact</a>
+          </div>
+        </div>
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <p><a href="tel:0438825008">0438 825 008</a></p>
+          <p><a href="mailto:info@magnumbi.com.au">info@magnumbi.com.au</a></p>
+          <p>Sunshine Coast, QLD</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copyright">&copy; 2025 Magnum BI. All rights reserved.</span>
+        <a href="#" id="privacyLink" class="footer-privacy">Privacy Policy</a>
+        <span class="easter-egg-hint" title="Try me!">&#8593;&#8593;&#8595;&#8595;&#8592;&#8594;&#8592;&#8594;BA</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== PRIVACY MODAL ===== -->
+  <div id="privacyModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeModal" class="close-modal">&times;</span>
+      <h2>Privacy Policy</h2>
+      <div class="modal-body">
+        <p><strong>Last Updated: 2025</strong></p>
+        <h3>1. Introduction</h3>
+        <p>Magnum BI ("we" or "us" or "our") operates the Magnum BI website (the "Service"). This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data.</p>
+        <h3>2. Information Collection and Use</h3>
+        <p>We collect several different types of information for various purposes to provide and improve our Service to you. This may include email address, first and last name, phone number, cookies and usage data.</p>
+        <h3>3. Use of Data</h3>
+        <p>Magnum BI uses the collected data to provide and maintain the Service, notify you about changes, provide customer care and support, gather analysis to improve the Service, monitor usage, and detect and address technical issues.</p>
+        <h3>4. Security of Data</h3>
+        <p>The security of your data is important to us, but remember that no method of transmission over the Internet or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.</p>
+        <h3>5. Contact Us</h3>
+        <p>If you have any questions about this Privacy Policy, please contact us at info@magnumbi.com.au</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SNAKE GAME ===== -->
+  <div id="snakeGame" class="snake-overlay hidden">
+    <div class="snake-container">
+      <button id="snakeClose" class="snake-close-btn">&times;</button>
+      <canvas id="snakeCanvas" width="400" height="400"></canvas>
+      <div class="snake-hud">
+        <div id="snakeStart" class="snake-start">
+          <h1>Magnum Snake</h1>
+          <p>Arrow Keys to Move</p>
+          <p>Press SPACEBAR to Start</p>
+        </div>
+        <div id="snakeScore" class="snake-score hidden">
+          Score: <span id="scoreValue">0</span>
+        </div>
+        <div id="snakeGameOver" class="snake-game-over hidden">
+          <h2>Game Over</h2>
+          <p>Final Score: <span id="finalScore">0</span></p>
+          <button id="snakeRestart">Play Again (SPACEBAR)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // Custom Cursor
+    const cursor = document.getElementById('cursor');
+    let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animateCursor() {
+      cursorX += (mouseX - cursorX) * 0.25;
+      cursorY += (mouseY - cursorY) * 0.25;
+      cursor.style.transform = `translate(${cursorX - 10}px, ${cursorY - 10}px)`;
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.matches('a, button, .service-card, .gallery-item, .review-card, .step, input, textarea, select')) {
+        cursor.classList.add('cursor-hover');
+      }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.matches('a, button, .service-card, .gallery-item, .review-card, .step, input, textarea, select')) {
+        cursor.classList.remove('cursor-hover');
+      }
+    });
+
+    // Scroll-triggered Reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Header Scroll Effect
+    const navbar = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 100);
+    });
+
+    // Smooth Scroll
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href !== '#' && document.querySelector(href)) {
+          e.preventDefault();
+          document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Form Submission
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert('Thanks for reaching out! We\'ll be in touch within 24 hours.');
+      e.target.reset();
+    });
+
+    // Privacy Modal
+    const privacyLink = document.getElementById('privacyLink');
+    const privacyModal = document.getElementById('privacyModal');
+    const closeModal = document.getElementById('closeModal');
+
+    privacyLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      privacyModal.classList.remove('hidden');
+    });
+
+    closeModal.addEventListener('click', () => privacyModal.classList.add('hidden'));
+    window.addEventListener('click', (e) => {
+      if (e.target === privacyModal) privacyModal.classList.add('hidden');
+    });
+
+    // Konami Code
+    const konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    let konamiIndex = 0;
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === konamiCode[konamiIndex].toLowerCase()) {
+        konamiIndex++;
+        if (konamiIndex === konamiCode.length) {
+          document.getElementById('snakeGame').classList.remove('hidden');
+          konamiIndex = 0;
+        }
+      } else {
+        konamiIndex = 0;
+      }
+    });
+
+    // Snake Game
+    const snakeGameOverlay = document.getElementById('snakeGame');
+    const snakeCanvas = document.getElementById('snakeCanvas');
+    const snakeCtx = snakeCanvas.getContext('2d');
+    const snakeClose = document.getElementById('snakeClose');
+    const snakeStartEl = document.getElementById('snakeStart');
+    const snakeScoreEl = document.getElementById('snakeScore');
+    const snakeGameOverEl = document.getElementById('snakeGameOver');
+    const snakeRestart = document.getElementById('snakeRestart');
+
+    const gridSize = 20;
+    const tileCount = snakeCanvas.width / gridSize;
+    let snake = [{ x: 10, y: 10 }];
+    let food = { x: Math.floor(Math.random() * tileCount), y: Math.floor(Math.random() * tileCount) };
+    let direction = { x: 1, y: 0 };
+    let nextDirection = { x: 1, y: 0 };
+    let score = 0;
+    let gameRunning = false;
+    let gameSpeed = 100;
+    let lastMoveTime = 0;
+
+    function startSnakeGame() {
+      gameRunning = true;
+      snakeStartEl.classList.add('hidden');
+      snakeScoreEl.classList.remove('hidden');
+      lastMoveTime = Date.now();
+      gameLoop();
+    }
+
+    function gameLoop() {
+      const now = Date.now();
+      if (now - lastMoveTime > gameSpeed) {
+        updateGame();
+        drawGame();
+        lastMoveTime = now;
+      }
+      if (gameRunning) requestAnimationFrame(gameLoop);
+    }
+
+    function updateGame() {
+      direction = nextDirection;
+      const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+
+      if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) { endGame(); return; }
+      for (let s of snake) { if (head.x === s.x && head.y === s.y) { endGame(); return; } }
+
+      snake.unshift(head);
+
+      if (head.x === food.x && head.y === food.y) {
+        score += 10;
+        gameSpeed = Math.max(50, gameSpeed - 2);
+        document.getElementById('scoreValue').textContent = score;
+        food = { x: Math.floor(Math.random() * tileCount), y: Math.floor(Math.random() * tileCount) };
+      } else {
+        snake.pop();
+      }
+    }
+
+    function drawGame() {
+      snakeCtx.fillStyle = '#0a0e27';
+      snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+
+      snakeCtx.strokeStyle = 'rgba(0, 255, 255, 0.08)';
+      snakeCtx.lineWidth = 0.5;
+      for (let i = 0; i <= tileCount; i++) {
+        const c = i * gridSize;
+        snakeCtx.beginPath(); snakeCtx.moveTo(c, 0); snakeCtx.lineTo(c, snakeCanvas.height); snakeCtx.stroke();
+        snakeCtx.beginPath(); snakeCtx.moveTo(0, c); snakeCtx.lineTo(snakeCanvas.width, c); snakeCtx.stroke();
+      }
+
+      snakeCtx.shadowColor = '#ff006e';
+      snakeCtx.shadowBlur = 10;
+      snake.forEach((seg, i) => {
+        snakeCtx.fillStyle = `rgba(255, 0, 110, ${1 - (i / snake.length) * 0.5})`;
+        snakeCtx.fillRect(seg.x * gridSize + 1, seg.y * gridSize + 1, gridSize - 2, gridSize - 2);
+      });
+      snakeCtx.shadowBlur = 0;
+
+      snakeCtx.fillStyle = '#00ffff';
+      snakeCtx.shadowColor = '#00ffff';
+      snakeCtx.shadowBlur = 15;
+      snakeCtx.fillRect(food.x * gridSize + 4, food.y * gridSize + 4, gridSize - 8, gridSize - 8);
+      snakeCtx.shadowBlur = 0;
+    }
+
+    function endGame() {
+      gameRunning = false;
+      snakeScoreEl.classList.add('hidden');
+      snakeGameOverEl.classList.remove('hidden');
+      document.getElementById('finalScore').textContent = score;
+    }
+
+    function resetGame() {
+      snake = [{ x: 10, y: 10 }];
+      food = { x: Math.floor(Math.random() * tileCount), y: Math.floor(Math.random() * tileCount) };
+      direction = { x: 1, y: 0 };
+      nextDirection = { x: 1, y: 0 };
+      score = 0;
+      gameSpeed = 100;
+      document.getElementById('scoreValue').textContent = score;
+      snakeStartEl.classList.remove('hidden');
+      snakeGameOverEl.classList.add('hidden');
+      snakeScoreEl.classList.add('hidden');
+      drawGame();
+    }
+
+    snakeClose.addEventListener('click', () => {
+      gameRunning = false;
+      snakeGameOverlay.classList.add('hidden');
+      resetGame();
+    });
+
+    snakeRestart.addEventListener('click', () => { resetGame(); startSnakeGame(); });
+
+    document.addEventListener('keydown', (e) => {
+      if (!snakeGameOverlay.classList.contains('hidden')) {
+        if (e.code === 'Space') {
+          e.preventDefault();
+          if (!gameRunning) startSnakeGame();
+        } else if (e.code === 'ArrowUp' && direction.y === 0) { e.preventDefault(); nextDirection = { x: 0, y: -1 }; }
+        else if (e.code === 'ArrowDown' && direction.y === 0) { e.preventDefault(); nextDirection = { x: 0, y: 1 }; }
+        else if (e.code === 'ArrowLeft' && direction.x === 0) { e.preventDefault(); nextDirection = { x: -1, y: 0 }; }
+        else if (e.code === 'ArrowRight' && direction.x === 0) { e.preventDefault(); nextDirection = { x: 1, y: 0 }; }
+      }
+    });
+
+    drawGame();
+  </script>
+
 </body>
 </html>
