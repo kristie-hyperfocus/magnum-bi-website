@@ -1,0 +1,247 @@
+---
+// Load CMS content
+import heroData from '../../content/hero.json';
+import aboutData from '../../content/about.json';
+import contactData from '../../content/contact.json';
+import seoData from '../../content/seo.json';
+
+// Load services (markdown files)
+const services = await Astro.glob('../../content/services/*.md');
+
+// Load FAQs
+const faqs = await Astro.glob('../../content/faq/*.md');
+
+// Sort services by order
+const sortedServices = services
+  .sort((a, b) => (a.frontmatter.order || 0) - (b.frontmatter.order || 0))
+  .filter(s => s.frontmatter.featured);
+
+// Sort FAQs by order
+const sortedFaqs = faqs.sort((a, b) => (a.frontmatter.order || 0) - (b.frontmatter.order || 0));
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{seoData.site_title}</title>
+    <meta name="description" content={seoData.site_description}>
+    {seoData.keywords && <meta name="keywords" content={seoData.keywords.join(', ')}>}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== CSS CUSTOM PROPERTIES ===== */
+        :root {
+            --bg: #0a0a1a;
+            --neon-pink: #ff2d95;
+            --neon-cyan: #00f5ff;
+            --sunset-orange: #ff6b35;
+            --sunset-pink: #ff1493;
+            --text: #e0e0e0;
+            --text-muted: rgba(255,255,255,0.5);
+            --max-width: 1200px;
+            --section-padding: 100px 0;
+            --container-padding: 0 40px;
+        }
+
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background-color: var(--neon-pink);
+            color: var(--bg);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--container-padding);
+        }
+
+        /* Include all your existing CSS here... */
+        /* For now, I'll include the critical styles */
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--bg) 0%, #1a0a2e 100%);
+        }
+
+        .hero-content h1 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 18px 50px;
+            background: linear-gradient(135deg, var(--neon-pink), var(--sunset-orange));
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-radius: 50px;
+            box-shadow: 0 10px 40px rgba(255, 45, 149, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(255, 45, 149, 0.5);
+        }
+
+        /* ===== SECTION HEADING ===== */
+        .section-heading {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 60px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Add more styles as needed */
+    </style>
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div id="cursor"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <a href="/" class="logo">
+        <img src="/Magnum-BI-Logo-Colour-White.svg" alt="Magnum BI Logo">
+      </a>
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#gallery">Work</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>{heroData.title}</h1>
+      <p class="hero-subtitle">{heroData.subtitle}</p>
+      {heroData.tagline && <p class="hero-tagline">{heroData.tagline}</p>}
+      <a href={heroData.cta_link} class="hero-cta">{heroData.cta_text}</a>
+    </div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
+  <section id="services" class="services reveal">
+    <h2 class="section-heading container">Our Services</h2>
+    <div class="services-grid">
+      {sortedServices.map(service => (
+        <div class="service-card">
+          <div class="service-icon">🔍</div>
+          <h3 class="service-title">{service.frontmatter.title}</h3>
+          <p class="service-description">{service.frontmatter.description}</p>
+          {service.frontmatter.price && <p class="service-price">{service.frontmatter.price}</p>}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" class="contact reveal">
+    <h2 class="section-heading container">Let's Talk</h2>
+    <div class="contact-container">
+      <div class="contact-info">
+        <h3>Get in Touch</h3>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Phone</div>
+          <div class="contact-detail-value"><a href={`tel:${contactData.phone}`}>{contactData.phone}</a></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Email</div>
+          <div class="contact-detail-value"><a href={`mailto:${contactData.email}`}>{contactData.email}</a></div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Location</div>
+          <div class="contact-detail-value">{contactData.address}</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Hours</div>
+          <div class="contact-detail-value">{contactData.hours}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Netlify Identity Widget for CMS Authentication -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+  <script>
+    // Add your existing JavaScript here
+    console.log('Magnum BI - Powered by Astro + Decap CMS');
+  </script>
+
+</body>
+</html>
