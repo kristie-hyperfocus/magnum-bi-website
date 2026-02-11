@@ -1,0 +1,140 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Uncomment below to use GitHub directly (alternative to Netlify)
+# backend:
+#   name: github
+#   repo: YOUR_USERNAME/magnum-bi-website
+#   branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  # Homepage Settings
+  - name: "homepage"
+    label: "Homepage"
+    files:
+      - label: "Hero Section"
+        name: "hero"
+        file: "content/hero.json"
+        fields:
+          - {label: "Main Title", name: "title", widget: "string", default: "MAGNUM BI"}
+          - {label: "Subtitle", name: "subtitle", widget: "text", default: "Building Inspection Sunshine Coast"}
+          - {label: "Tagline", name: "tagline", widget: "text", required: false}
+          - {label: "Call to Action Button Text", name: "cta_text", widget: "string", default: "Book Inspection"}
+          - {label: "Call to Action Button Link", name: "cta_link", widget: "string", default: "#contact"}
+          - {label: "Background Image", name: "background_image", widget: "image", required: false}
+
+      - label: "About Section"
+        name: "about"
+        file: "content/about.json"
+        fields:
+          - {label: "Heading", name: "heading", widget: "string", default: "About Magnum BI"}
+          - {label: "Description", name: "description", widget: "markdown"}
+          - {label: "Why Choose Us", name: "features", widget: "list", fields: [
+              {label: "Feature", name: "feature", widget: "string"},
+              {label: "Description", name: "description", widget: "text"}
+            ]}
+
+  # Services
+  - name: "services"
+    label: "Services"
+    folder: "content/services"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Service Name", name: "title", widget: "string"}
+      - {label: "Short Description", name: "description", widget: "text"}
+      - {label: "Icon/Image", name: "image", widget: "image", required: false}
+      - {label: "Price", name: "price", widget: "string", required: false, hint: "e.g., 'From $450' or 'Call for quote'"}
+      - {label: "Duration", name: "duration", widget: "string", required: false, hint: "e.g., '2-3 hours'"}
+      - {label: "Full Details", name: "body", widget: "markdown"}
+      - {label: "Featured Service", name: "featured", widget: "boolean", default: false}
+      - {label: "Order", name: "order", widget: "number", default: 0, hint: "Lower numbers appear first"}
+
+  # Blog Posts
+  - name: "blog"
+    label: "Blog & News"
+    folder: "content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Author", name: "author", widget: "string", default: "Magnum BI Team"}
+      - {label: "Featured Image", name: "thumbnail", widget: "image", required: false}
+      - {label: "Excerpt", name: "excerpt", widget: "text", required: false, hint: "Short summary for previews"}
+      - {label: "Body", name: "body", widget: "markdown"}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Published", name: "published", widget: "boolean", default: true}
+
+  # FAQs
+  - name: "faq"
+    label: "FAQs"
+    folder: "content/faq"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Question", name: "question", widget: "string"}
+      - {label: "Answer", name: "answer", widget: "markdown"}
+      - {label: "Category", name: "category", widget: "select", options: ["General", "Pre-Purchase Inspection", "Building Reports", "Pricing", "Process"]}
+      - {label: "Order", name: "order", widget: "number", default: 0}
+
+  # Testimonials
+  - name: "testimonials"
+    label: "Testimonials"
+    folder: "content/testimonials"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Client Name", name: "name", widget: "string"}
+      - {label: "Location", name: "location", widget: "string", required: false, hint: "e.g., 'Sunshine Coast'"}
+      - {label: "Rating", name: "rating", widget: "number", min: 1, max: 5, default: 5}
+      - {label: "Testimonial", name: "testimonial", widget: "text"}
+      - {label: "Service Used", name: "service", widget: "string", required: false}
+      - {label: "Photo", name: "photo", widget: "image", required: false}
+      - {label: "Featured", name: "featured", widget: "boolean", default: false}
+      - {label: "Date", name: "date", widget: "datetime"}
+
+  # Contact & Business Info
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "Contact Information"
+        name: "contact"
+        file: "content/contact.json"
+        fields:
+          - {label: "Business Name", name: "business_name", widget: "string", default: "Magnum BI"}
+          - {label: "Email", name: "email", widget: "string"}
+          - {label: "Phone", name: "phone", widget: "string"}
+          - {label: "Address", name: "address", widget: "text"}
+          - {label: "Service Areas", name: "service_areas", widget: "list", required: false}
+          - {label: "Business Hours", name: "hours", widget: "text"}
+          - {label: "ABN", name: "abn", widget: "string", required: false}
+          - {label: "License Number", name: "license", widget: "string", required: false}
+          - {label: "Facebook URL", name: "facebook", widget: "string", required: false}
+          - {label: "Instagram URL", name: "instagram", widget: "string", required: false}
+          - {label: "LinkedIn URL", name: "linkedin", widget: "string", required: false}
+
+      - label: "SEO Settings"
+        name: "seo"
+        file: "content/seo.json"
+        fields:
+          - {label: "Site Title", name: "site_title", widget: "string", default: "Magnum BI - Building Inspection Sunshine Coast"}
+          - {label: "Site Description", name: "site_description", widget: "text"}
+          - {label: "Keywords", name: "keywords", widget: "list", required: false}
+          - {label: "Google Analytics ID", name: "google_analytics", widget: "string", required: false}
+          - {label: "Facebook Pixel ID", name: "facebook_pixel", widget: "string", required: false}
+
+  # Areas Serviced
+  - name: "areas"
+    label: "Service Areas"
+    folder: "content/areas"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Area Name", name: "name", widget: "string"}
+      - {label: "Description", name: "description", widget: "text", required: false}
+      - {label: "Featured", name: "featured", widget: "boolean", default: false}
