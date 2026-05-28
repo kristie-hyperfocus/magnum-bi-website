@@ -247,7 +247,7 @@ const seoData = (await import('../../content/seo.json')).default;
             align-items: center;
             justify-content: center;
             margin-top: 80px;
-            background: url('sunset-beach-background.png') center center / cover no-repeat;
+            background: url('/sunset-beach-background.png') center center / cover no-repeat;
         }
 
         .hero::before {
@@ -2196,9 +2196,21 @@ const seoData = (await import('../../content/seo.json')).default;
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+    }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+
+    // Manual fallback: reveal anything already in (or near) the viewport on load
+    function revealInView() {
+      document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight + 40) {
+          el.classList.add('visible');
+        }
+      });
+    }
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    revealInView(); // catch anything visible on initial load
+    window.addEventListener('scroll', revealInView, { passive: true });
 
     // Header Scroll Effect
     const navbar = document.querySelector('nav');
