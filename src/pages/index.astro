@@ -394,17 +394,18 @@ const seoData = (await import('../../content/seo.json')).default;
             max-width: 800px;
         }
 
-        /* ===== SCROLL REVEAL ===== */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
+        /* ===== SECTION REVEAL — CSS animations, no JS required ===== */
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal { animation: revealUp 0.7s ease both; }
+        #services  { animation-delay: 0.05s; }
+        #gallery   { animation-delay: 0.08s; }
+        #about     { animation-delay: 0.08s; }
+        .process   { animation-delay: 0.08s; }
+        #reviews   { animation-delay: 0.08s; }
+        #contact   { animation-delay: 0.08s; }
 
         /* ===== SECTION HEADINGS ===== */
         .section-heading {
@@ -2188,29 +2189,7 @@ const seoData = (await import('../../content/seo.json')).default;
       }
     });
 
-    // Scroll-triggered Reveal
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
-
-    // Manual fallback: reveal anything already in (or near) the viewport on load
-    function revealInView() {
-      document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight + 40) {
-          el.classList.add('visible');
-        }
-      });
-    }
-
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    revealInView(); // catch anything visible on initial load
-    window.addEventListener('scroll', revealInView, { passive: true });
+    // Reveal animations are handled by CSS @keyframes (see .reveal rule in <style>)
 
     // Header Scroll Effect
     const navbar = document.querySelector('nav');
