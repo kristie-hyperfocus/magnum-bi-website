@@ -269,7 +269,16 @@ const seoData = (await import('../../content/seo.json')).default;
             z-index: 2;
             text-align: center;
             padding: 0 40px;
+            margin-top: 14vh;
             animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-logo {
+            width: clamp(100px, 14vw, 160px);
+            height: auto;
+            margin: 0 auto 28px;
+            display: block;
+            filter: drop-shadow(0 0 24px rgba(255, 45, 149, 0.45)) drop-shadow(0 0 8px rgba(0, 0, 0, 0.6));
         }
 
         .hero-title {
@@ -1881,6 +1890,7 @@ const seoData = (await import('../../content/seo.json')).default;
   <!-- ===== HERO ===== -->
   <section class="hero">
     <div class="hero-content">
+      <img src="/Magnum-BI-Full-Logo.svg" alt="Magnum BI" class="hero-logo">
       <h1 class="hero-title">{heroData.title}</h1>
       <p class="hero-subtitle">{heroData.subtitle}</p>
       <p class="hero-tagline">{heroData.tagline}</p>
