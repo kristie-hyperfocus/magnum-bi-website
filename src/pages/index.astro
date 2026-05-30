@@ -2355,30 +2355,34 @@ const seoData = (await import('../../content/seo.json')).default;
       const dots     = document.querySelectorAll('.carousel-dot');
       if (!carousel) return;
 
-      function getCardWidth() {
-        const card = carousel.querySelector('.service-card');
-        return card ? card.offsetWidth + 24 : 0; // 24 = gap
+      const cards = Array.from(carousel.querySelectorAll('.service-card'));
+      const total = cards.length;
+      let current = 0;
+
+      function goTo(index) {
+        current = Math.max(0, Math.min(total - 1, index));
+        // scrollIntoView is far more reliable than scrollTo + pixel math with snap containers
+        cards[current].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current >= total - 1;
       }
 
-      function scrollTo(index) {
-        carousel.scrollTo({ left: index * getCardWidth(), behavior: 'smooth' });
-      }
+      prevBtn.addEventListener('click', () => goTo(current - 1));
+      nextBtn.addEventListener('click', () => goTo(current + 1));
+      dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
 
-      function currentIndex() {
-        return Math.round(carousel.scrollLeft / getCardWidth());
-      }
-
-      function updateDots() {
-        const idx = currentIndex();
-        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-        prevBtn.disabled = idx === 0;
-        nextBtn.disabled = idx >= dots.length - 1;
-      }
-
-      prevBtn.addEventListener('click', () => scrollTo(currentIndex() - 1));
-      nextBtn.addEventListener('click', () => scrollTo(currentIndex() + 1));
-      dots.forEach(dot => dot.addEventListener('click', () => scrollTo(+dot.dataset.index)));
-      carousel.addEventListener('scroll', updateDots, { passive: true });
+      // Re-sync when user manually swipes
+      carousel.addEventListener('scroll', () => {
+        const cardWidth = cards[0] ? cards[0].offsetWidth + 24 : 1;
+        const idx = Math.max(0, Math.min(total - 1, Math.round(carousel.scrollLeft / cardWidth)));
+        if (idx !== current) {
+          current = idx;
+          dots.forEach((d, i) => d.classList.toggle('active', i === current));
+          prevBtn.disabled = current === 0;
+          nextBtn.disabled = current >= total - 1;
+        }
+      }, { passive: true });
 
       // Drag-to-scroll
       let isDragging = false, startX = 0, scrollStart = 0;
@@ -2394,11 +2398,11 @@ const seoData = (await import('../../content/seo.json')).default;
         if (!isDragging) return;
         isDragging = false;
         carousel.classList.remove('is-dragging');
-        // Snap to nearest card
-        scrollTo(currentIndex());
+        const cardWidth = cards[0] ? cards[0].offsetWidth + 24 : 1;
+        goTo(Math.round(carousel.scrollLeft / cardWidth));
       });
 
-      updateDots();
+      goTo(0);
     })();
 
     // Privacy Modal
